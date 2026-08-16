@@ -1,3 +1,5 @@
+# Guía de despliegue RHEL-VMware
+
 **Tema central**
 
 Diseño e implementación de un laboratorio de virtualización de bajo consumo de recursos (usando VMware) orientado a la preparación práctica para certificaciones en Red Hat Enterprise Linux (RHEL).
