@@ -167,3 +167,156 @@ Solo en dos escenarios futuros:
 
 
 
+## Razones sobre" por qué " quiero tener un laboratorio basado en VMware ESXi
+
+En algunas solicitudes de empleo relacionado con infraestructuras y servidores, he visto los requisitos para un puesto donde se mencionan a: virtualizacion con VMWare ESXi, y administración de servidores Red Hat Linux Enterprise.
+
+En mi experiencia más reciente durante una entrevista de empleo, han mencionado que utilizan Red Hat Linux Enterprise y VMWare para el despliegues de soluciones. 
+
+Esto me conduce a empezar una actualización de conocimientos sobre Linux, específicamente basado en Red Hat. Para ello, he pensado en utilizar maquinas virtuales donde aplicar soluciones prácticas con simulación de escenarios problemáticos en servidores, puede romper cosas, al mismo tiempo que estoy lidiando con VMware para la gestión de VMs.
+
+
+
+Ahora sí. Ahora entiendo perfectamente por qué querías ESXi, y **tu intuición era correcta**. Me disculpo por no haber preguntado antes el objetivo real: no es solo Linux, no es solo VMware, es la **intersección** de ambos. Eso es exactamente lo que se pide en entrevistas de infraestructura enterprise.
+
+En producción real, cuando te dicen *"usamos RHEL y VMware"*, no significa que corran RHEL en laptops con VirtualBox. Significa:
+
+- Despliegan **plantillas de RHEL/AlmaLinux** desde **vCenter**
+- Las VMs corren sobre **ESXi** con **vmxnet3**, **PVSCSI**, **open-vm-tools**
+- El networking pasa por **vSwitch**, **Port Groups**, **VLANs**
+- Los problemas de una VM Linux pueden venir del host ESXi, del vSwitch, o del SO — y debes saber discriminar
+- Usan **snapshots** antes de parches de kernel (y saben que no son backup)
+- Automatizan despliegues con **Kickstart** + **vSphere Guest Customization**
+
+Eso no lo aprendes con Workstation solo. Eso lo aprendes tocando **ESXi**. Tenías razón.
+
+------
+
+## 1. La arquitectura realista para tu objetivo
+
+Con tu hardware (16GB, Realtek, un solo PC), no podemos montar un datacenter. Pero sí podemos construir un **laboratorio de intersección RHEL+VMware** que te hable en entrevistas.
+
+### Capa local: Workstation + ESXi anidado + AlmaLinux
+
+```plain
+┌─────────────────────────────────────────────────────────────┐
+│           PC Físico: Ryzen 5 5600GT + 16GB + SSD            │
+│                    Windows 11 + Workstation Pro               │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  VM: ESXi 8.0U3e (Anidado)                        │    │
+│  │  ├─ RAM: 6 GB                                     │    │
+│  │  ├─ vCPU: 2 (Nested Virtualization ON)            │    │
+│  │  ├─ Disco 1: 20 GB (ESXi system)                  │    │
+│  │  ├─ Disco 2: 100 GB (Datastore VMFS)              │    │
+│  │  ├─ NIC 1: vmxnet3 → Bridged (IP real en red)     │    │
+│  │  └─ NIC 2: vmxnet3 → Host-only (mgmt secundario)  │    │
+│  │                                                   │    │
+│  │  DENTRO DE ESXi (gestión vía Host Client):        │    │
+│  │  ├─ VM "alma-web"    AlmaLinux 9, 1GB, vmxnet3  │    │
+│  │  ├─ VM "alma-db"     AlmaLinux 9, 1GB, vmxnet3  │    │
+│  │  ├─ VM "alma-broken" AlmaLinux 9, 512MB (troubleshooting)│
+│  │  └─ VM "alma-template" AlmaLinux 9 (golden image) │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
+│  (Directo en Workstation, fuera de ESXi):                   │
+│  ├─ VM "alma-rhcsa-practice" AlmaLinux 9, 2GB             │
+│  └─ VM "pfsense-lab" 1GB (redes entre VMs)                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Capa complementaria: VMware Hands-On Labs (desde tu laptop)
+
+- **HOL-2501-01-VCF**: vSphere Getting Started (vCenter, templates, vMotion)
+- **HOL-2501-02-VCF**: vSphere Advanced (DRS, HA, Distributed Switch, vSAN)
+
+------
+
+## 2. Por qué esta arquitectura te prepara para la entrevista
+
+
+
+| Escenario de entrevista                                      | Cómo lo practicas en este lab                                |
+| :----------------------------------------------------------- | :----------------------------------------------------------- |
+| *"¿Cómo optimizas una VM RHEL en VMware?"*                   | En el ESXi anidado, cambias la VM de e1000 a **vmxnet3**, de LSI Logic a **PVSCSI**, instalas **open-vm-tools**, y comparas rendimiento. |
+| *"¿Cómo despliegas 20 servidores RHEL idénticos?"*           | Creas una **template** en ESXi, usas **Guest Customization** (aunque sea manual en Host Client), y despliegas clones. En HOL practicas el flujo completo con vCenter. |
+| *"¿Qué haces antes de actualizar kernel en una VM de producción?"* | Tomas **snapshot** en ESXi, entras a la VM, haces `dnf update kernel`, reboot. Si falla, revertís. Explicas por qué snapshot no es backup. |
+| *"La VM Linux no tiene red. ¿Dónde miras primero?"*          | Practicas la triada: `ip addr` dentro de la VM → Port Group / VLAN en ESXi → vSwitch uplink. Aprendes a discriminar. |
+| *"¿Cómo automatizas el despliegue de RHEL en vSphere?"*      | Preparas un **Kickstart** (`ks.cfg`) en la VM template. Lo inyectas vía CD virtual montado en ESXi. |
+| *"¿Has trabajado con vCenter?"*                              | En HOL demuestras que sí: creas datacenter, cluster, añades hosts, migras VMs con vMotion. |
+
+------
+
+## 3. Los detalles que marcan diferencia en entrevistas
+
+Cuando menciones que has practicado RHEL sobre VMware, estos son los puntos que demuestran que no eres un usuario de escritorio, sino alguien que entiende la plataforma:
+
+### Hardware virtual "enterprise" para Linux
+
+En tus VMs de AlmaLinux dentro de ESXi, siempre configura:
+
+- **NIC:** `vmxnet3` (no e1000, no e1000e). Es el estándar en producción.
+- **SCSI Controller:** `PVSCSI` (Paravirtual SCSI) para alta I/O, o `LSI Logic SAS` para compatibilidad general.
+- **Discos:** `Thin provisioned` en el datastore, pero dentro de la VM usas LVM para expandir.
+
+### VMware Tools en Linux
+
+```bash
+# En AlmaLinux 9 dentro de ESXi:
+sudo dnf install open-vm-tools
+sudo systemctl enable --now vmtoolsd
+
+# Esto da:
+# - Sincronización de reloj con el host ESXi
+# - Heartbeat para HA
+# - Shutdown graceful desde ESXi
+# - Información de IP en el Host Client
+```
+
+### Redes: la triada de troubleshooting
+
+Cuando una VM Linux sobre ESXi pierde red, el diagnóstico profesional es:
+
+1. **Dentro de la VM:** `ip link`, `ip addr`, `nmcli`, `/etc/sysconfig/network-scripts/`
+2. **En ESXi (Host Client):** ¿Está la VM en el Port Group correcto? ¿La VLAN tag coincide?
+3. **En el vSwitch:** ¿El uplink físico (vmxnet3 virtual → NIC de Workstation) tiene conectividad?
+
+Esto es **oro puro** en una entrevista. La mayoría de candidatos de Linux solo miran dentro de la VM.
+
+------
+
+## 4. El flujo de trabajo que simula producción
+
+Te propongo este ciclo de estudio, alternando días:
+
+| Día           | Enfoque                                                      | Plataforma          |
+| :------------ | :----------------------------------------------------------- | :------------------ |
+| **Lunes**     | Instalación y configuración base de AlmaLinux 9 en ESXi anidado. Practicas particionado LVM durante el setup. | ESXi anidado        |
+| **Martes**    | Servicios RHEL: `firewalld`, `httpd`, `mariadb`, SELinux, cron. Todo dentro de la VM en ESXi. | ESXi anidado        |
+| **Miércoles** | VMware puro: snapshots, clones, templates, Guest Customization, open-vm-tools, cambio de hardware virtual. | ESXi anidado        |
+| **Jueves**    | Redes: configuras VLANs, vmkernel NICs, troubleshoot de conectividad entre VMs sobre ESXi. | ESXi anidado        |
+| **Viernes**   | **VMware HOL** desde la laptop: vCenter, cluster, HA, DRS, vMotion, Distributed Switch. | HOL (navegador)     |
+| **Sábado**    | RHCSA puro: ejercicios de examen en VM directa de Workstation (sin capa ESXi, máxima agilidad). | Workstation directo |
+| **Domingo**   | Troubleshooting integrado: rompes la VM "alma-broken" en ESXi (borras `grub.cfg`, deshabilitas red) y recuperas desde Host Client + consola. | ESXi anidado        |
+
+------
+
+## 5. Mi reconocimiento y ajuste
+
+Tú tenías razón desde el principio. Para una entrevista que pide **RHEL + VMware**, necesitas haber tocado ambos juntos. Workstation solo no cuenta esa historia. ESXi anidado sí la cuenta, aunque sea con recursos limitados.
+
+La limitación no es tu visión; es tu hardware. La solución no es abandonar ESXi, es **usarlo inteligentemente dentro de Workstation** y complementar con HOL para lo que no cabe.
+
+------
+
+## ¿Por dónde empezamos?
+
+Te doy dos opciones concretas para hoy:
+
+1. **"Quiero montar el ESXi anidado ya"** → Te doy los pasos exactos en Workstation (flags de CPU, discos, NICs vmxnet3, habilitar nested virtualization) para que arranque ESXi 8.0U3e y puedas crear tu primera VM AlmaLinux dentro.
+2. **"Quiero primero ver cómo se ve un despliegue real de RHEL en vSphere"** → Te explico el flujo completo: template → Guest Customization → vmxnet3 → open-vm-tools → snapshot → update kernel, como lo harías en un trabajo real.
+
+¿Cuál te resuena más para empezar esta semana?
+
+
+
