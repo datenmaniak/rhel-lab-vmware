@@ -201,27 +201,27 @@ Con tu hardware (16GB, Realtek, un solo PC), no podemos montar un datacenter. Pe
 ```plain
 ┌─────────────────────────────────────────────────────────────┐
 │           PC Físico: Ryzen 5 5600GT + 16GB + SSD            │
-│                    Windows 11 + Workstation Pro               │
+│                    Windows 11 + Workstation Pro             │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │  VM: ESXi 8.0U3e (Anidado)                        │    │
-│  │  ├─ RAM: 6 GB                                     │    │
-│  │  ├─ vCPU: 2 (Nested Virtualization ON)            │    │
-│  │  ├─ Disco 1: 20 GB (ESXi system)                  │    │
-│  │  ├─ Disco 2: 100 GB (Datastore VMFS)              │    │
-│  │  ├─ NIC 1: vmxnet3 → Bridged (IP real en red)     │    │
-│  │  └─ NIC 2: vmxnet3 → Host-only (mgmt secundario)  │    │
-│  │                                                   │    │
-│  │  DENTRO DE ESXi (gestión vía Host Client):        │    │
-│  │  ├─ VM "alma-web"    AlmaLinux 9, 1GB, vmxnet3  │    │
-│  │  ├─ VM "alma-db"     AlmaLinux 9, 1GB, vmxnet3  │    │
+│  │  VM: ESXi 8.0U3e (Anidado)                          │    │
+│  │  ├─ RAM: 6 GB                                       │    │
+│  │  ├─ vCPU: 2 (Nested Virtualization ON)              │    │
+│  │  ├─ Disco 1: 20 GB (ESXi system)                    │    │
+│  │  ├─ Disco 2: 100 GB (Datastore VMFS)                │    │
+│  │  ├─ NIC 1: vmxnet3 → Bridged (IP real en red)       │    │
+│  │  └─ NIC 2: vmxnet3 → Host-only (mgmt secundario)    │    │
+│  │                                                     │    │
+│  │  DENTRO DE ESXi (gestión vía Host Client):          │    │
+│  │  ├─ VM "alma-web"    AlmaLinux 9, 1GB, vmxnet3      │    │
+│  │  ├─ VM "alma-db"     AlmaLinux 9, 1GB, vmxnet3      │    │
 │  │  ├─ VM "alma-broken" AlmaLinux 9, 512MB (troubleshooting)│
-│  │  └─ VM "alma-template" AlmaLinux 9 (golden image) │    │
+│  │  └─ VM "alma-template" AlmaLinux 9 (golden image)   │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                             │
 │  (Directo en Workstation, fuera de ESXi):                   │
-│  ├─ VM "alma-rhcsa-practice" AlmaLinux 9, 2GB             │
-│  └─ VM "pfsense-lab" 1GB (redes entre VMs)                │
+│  ├─ VM "alma-rhcsa-practice" AlmaLinux 9, 2GB               │
+│  └─ VM "pfsense-lab" 1GB (redes entre VMs)                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
