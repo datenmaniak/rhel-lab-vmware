@@ -28,7 +28,11 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 
 
 
-- [Escenarios](/doc/escenarios-virtualizacion.md)
+- [Escenarios de virtualización](/doc/escenarios-virtualizacion.md)
+
+- [Soluciones disponibles](/doc/soluciones-disponibles.md)
+
+  
 
 
 
