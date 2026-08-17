@@ -1,4 +1,4 @@
-# Implementación de laboratorio de Red Hat + VMware
+# Implementación de Lab  Red Hat + VMware
 
 > Manos a la obra!  
 >
