@@ -39,6 +39,75 @@ Si dice **"No"** en cualquiera, entra al BIOS del Ryzen y habilita:
 
 Guarda, reinicia, y verifica de nuevo.
 
+Si la salida ha mostrado esto: 
+
+```bash
+Hyper-V Requirements:          A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+
+
+```
+
+El comando `systeminfo.exe` detecta que **ya hay un hipervisor activo en tu sistema** (en este caso, VMware). Cuando esto ocurre, Windows asume que no necesitas ver los requisitos de Hyper-V porque ya estás ejecutando máquinas virtuales con otro hipervisor, y por seguridad **oculta esa información** para evitar conflictos.
+
+------
+
+### ✅ Solución: Verificar los requisitos sin desactivar VMware
+
+Tienes dos opciones rápidas:
+
+#### Opción 1: Usar PowerShell (recomendado)
+
+Abre **PowerShell como Administrador** y ejecuta:
+
+```
+Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V
+```
+
+Esto te dirá si Hyper-V está **Enabled** (habilitado) o **Disabled** (deshabilitado) sin importar que VMware esté corriendo.
+
+------
+
+#### Opción 2: Usar el comando `msinfo32`
+
+1. Presiona `Win + R`, escribe `msinfo32` y presiona Enter.
+2. En **Resumen del sistema**, busca:
+   - **Virtualización basada en hardware**: debe decir **Sí**
+   - **Modo de monitor de VM**: debe decir **Sí**
+   - **Traducción de direcciones de segundo nivel**: debe decir **Sí**
+
+Estos valores son los mismos que `systeminfo` intenta mostrarte, pero sin el conflicto del hipervisor.
+
+------
+
+#### ⚠️ ¿Qué hacer si necesitas usar Hyper-V y VMware juntos?
+
+Si tu intención es **tener ambos hipervisores activos** (algo posible en Windows 11), debes:
+
+1. **Cerrar todas las máquinas virtuales de VMware**.
+2. **Reiniciar Windows**.
+3. Antes de abrir VMware, ejecuta `systeminfo.exe` nuevamente; ahora sí te mostrará los requisitos de Hyper-V sin el mensaje de advertencia.
+
+Luego, para que funcionen simultáneamente, asegúrate de tener instalada la **versión más reciente de VMware Workstation** (16.2.0 o superior) y activa la opción en VMware de:
+**Editar > Preferencias > Memoria > "Permitir que las máquinas virtuales se suspendan mientras se usa Hyper-V"** (o similar, depende de la versión).
+
+> Hay un menú de opciones, en el cual se habilitad Hyper-V, WSL, entre otros. Cual es el shortcut de acceso para invocar directamente.?
+
+El *atajo directo* por excelencia para abrir esa ventana es usar el comando `optionalfeatures`. Puedes invocarlo de estas dos formas rápidas:
+
+- **Atajo de teclado universal:** Presiona las teclas **`Win + R`** para abrir el cuadro de diálogo "Ejecutar", escribe `optionalfeatures` y pulsa Enter. Es el método más rápido y directo .
+- **Desde el terminal:** Abre cualquier terminal (PowerShell o Símbolo del sistema) y ejecuta el mismo comando: `optionalfeatures` .
+
+#### Otras formas de acceso rápido
+
+Si lo que buscas es navegar por la interfaz, también puedes:
+
+- **Menú de Usuario Avanzado (Win + X):** Pulsa **`Win + X`** y selecciona **"Programas y características"**; desde ahí, haz clic en **"Activar o desactivar las características de Windows"** en el panel izquierdo .
+- **Búsqueda de Windows:** Pulsa la tecla `Win` y escribe "características de Windows" para que aparezca la opción de activar o desactivar componentes directamente .
+
+#### Por si te interesa: El poder de este comando
+
+Este comando (`optionalfeatures.exe`) es la puerta de entrada directa al gestor de componentes de Windows. Ahí podrás administrar no solo Hyper-V y WSL, sino también otras características del sistema como el Subsistema de Windows para Linux, el Sandbox de Windows o el Cliente de Escritorio Remoto
+
 ### 2. Verifica espacio en disco
 
 Asegúrate de que tu SSD tenga al menos **150 GB libres**. Usaremos thin provisioning, pero necesitas espacio para crecer.
