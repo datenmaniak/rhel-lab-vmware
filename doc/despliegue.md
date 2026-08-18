@@ -247,6 +247,22 @@ Tu VM ahora debe verse así en hardware:
 
 Enciende la VM (`ESXi-Lab-01`). Verás la pantalla de carga de ESXi.
 
+Si se presentan errores durante el arranque:
+
+```text
+ Virtualized AMD-V/RVI is not supported on this platform.
+
+Continue without virtualized AMD-V/RVI?
+```
+
+   ### Diagnósticos del problema:
+
+​       [Guía de soluciones](/doc//virtualizacion-anidada-soluciones.md)
+
+
+
+
+
 ### Paso 3.1: Boot e instalación
 
 1. La VM bootea desde la ISO. Verás el menú de VMware ESXi 8.0 Update 3.
