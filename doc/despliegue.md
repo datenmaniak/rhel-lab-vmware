@@ -247,7 +247,7 @@ Tu VM ahora debe verse así en hardware:
 
 Enciende la VM (`ESXi-Lab-01`). Verás la pantalla de carga de ESXi.
 
-Ocurre algunas advertencia durante el arranque:
+Si se presenta esta advertencia durante el arranque:
 
 ```text
  Virtualized AMD-V/RVI is not supported on this platform.
@@ -255,7 +255,7 @@ Ocurre algunas advertencia durante el arranque:
 Continue without virtualized AMD-V/RVI?
 ```
 
-Si se presenta esta advertencia es debido a alguna configuración de Windows que impide activar en el motor de virtualización la función que ha sido habilitada en la **configuración de  los procesadores** para la VM en curso.
+Ocurre debido a alguna configuración de Windows 11 que impide activar en el motor de virtualización de VMware la función que ha sido habilitada en la **configuración de  los procesadores** para la VM en curso.
 
 ` [ x ] Virtualizar Intel VT-x/EPT  o AMD-V/RVI` 
 
