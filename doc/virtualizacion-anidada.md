@@ -2,7 +2,11 @@
 
 > Quiero crear una VM maestra con VMWare ESXi para manejar gestionar varias VMs y crear una plataforma para el Laboratorio VMware. 
 >
-> Es posible hacer esto en VMware Workstatio Pro?
+> Es posible hacer esto en VMware Workstation Pro?
+
+
+
+
 
 Sí, es técnicamente posible crear una máquina virtual (VM) con VMware ESXi dentro de tu infraestructura actual para gestionar otras VM. Esta práctica se conoce como **virtualización anidada**.
 
