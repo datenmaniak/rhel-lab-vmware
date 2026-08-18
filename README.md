@@ -37,6 +37,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [Virtualización anidada](/doc/virtualizacion-anidada.md)
 - [Guía de Implementación](/doc/despliegue.md)
 - [Problemas de red durante la implementación](/doc//diagnosticos-red.md)
+- [Gajes del oficio con sistemas MS Windows](/doc//gajes-del-oficio-sistemas-windows.md)
 
   
 
