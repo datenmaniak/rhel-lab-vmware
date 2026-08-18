@@ -1,12 +1,18 @@
-# No se puede iniciar la virtualización anidada
+# Error de inicio de ESXi 
 
-## Por  que se produce este fallo al iniciar una VM en Workstation Pro, en Windows 11? 
+### El siguiente mensaje se produce al encender la maquina virtual por primera vez.
+
+#### Escenario:  `Workstation Pro corriendo en Windows 11`
+
+**Por  que se produce esta advertencia ?** 
 
 ```text
  Virtualized AMD-V/RVI is not supported on this platform.
 
 Continue without virtualized AMD-V/RVI?
 ```
+
+
 
 Ese mensaje aparece porque **VMware Workstation Pro intenta activar la virtualización anidada** (*Nested Virtualization* / AMD-V virtualizado dentro de la VM), pero Windows 11 no le permite el acceso directo a la extensión de hardware del procesador AMD.
 
