@@ -34,6 +34,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [Hardware disponible](/doc/hardware-disponible.md)
 - [Evaluando la única ruta](/doc/evaluando-unica-ruta.md)
 - [Justificación de esta iniciativa](/doc/justificacion-proyecto.md)
+- [Virtualización anidada](/doc/virtualizacion-anidada.md)
 - [Guía de Implementación](/doc/despliegue.md)
 
   
