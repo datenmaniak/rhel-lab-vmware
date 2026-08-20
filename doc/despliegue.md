@@ -551,3 +551,12 @@ Eso te deja margen. Puedes crear `alma-srv02` como servidor cliente para practic
 Dime en qué fase estás ahora mismo, o si algún paso te lanzó un error. No avances a ciegas: si la VM de ESXi no bootea, si la red no responde, o si AlmaLinux no ve el disco, detente y reporta. Cada error aquí es un escenario de troubleshooting que también te servirá en producción.
 
 ¿Todo claro hasta aquí, o hay algún paso que necesites que profundice?
+
+---
+
+#### Sugerencia:
+
+Configura tu llave SSH y accede a tus servidores Linux de manera simple y segura.
+
+[SSH desde Windows](/doc/tip-ssh-windows.md) 
+
