@@ -60,13 +60,13 @@ La primera instalación comprende todos los componentes esenciales para la redes
 
 Para quienes estamos acostumbrados a una consola de comandos para conectar a servidores o ejecutar tareas en nuestra propia estación de trabajo en Linux, cambiar ese entorno puede resultar una experiencia chocante e improductiva.
 
-Sugiero PSMUX para mejor la experiencia de usuario. Revisa el enlace y actívalo ahora:
+Sugiero PSMUX para mejor la experiencia de usuario. 
+
+1. Revisa el enlace y actívalo ahora:
 
 [Instalación](/doc/use-psmux.md)
 
-**Uso: **
-
-Abre CMD o Powershell:
+2. Abre CMD o Powershell:
 
 ```cmd
 Microsoft Windows [Version 10.0.26200.9168]
