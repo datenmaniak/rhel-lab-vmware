@@ -45,12 +45,26 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 
 ## Recomendaciones
 
+#### Instalación en Windows 11
+
 A fin de lograr una implementación exitosa de **VMware ESXi 8.0** con todos los componentes de (Bridges, servicios), es importante seguir una secuencia de instalación:
 
 1.  VMware WorkStation 17.6.4
 2.  VMware WorkStation 26H1
 
 La primera instalación comprende todos los componentes esenciales para la redes en modo **bridge**.  La versión **26H1** al detectar una versión previamente instalada, realizará un **upgrade**.
+
+---
+
+#### Optimiza la consola de comandos
+
+Para quienes estamos acostumbrados a una consola de comandos para conectar a servidores o ejecutar tareas en nuestra propia estación de trabajo en Linux, cambiar ese entorno puede resultar una experiencia chocante e improductiva.
+
+Sugiero PSMUX para mejor la experiencia de usuario. Revisa el enlace y actívalo ahora:
+
+[Instalación](/doc/use-psmux.md)
+
+
 
 
 
