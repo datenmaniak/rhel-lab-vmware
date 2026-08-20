@@ -64,6 +64,19 @@ Sugiero PSMUX para mejor la experiencia de usuario. Revisa el enlace y actívalo
 
 [Instalación](/doc/use-psmux.md)
 
+**Uso: **
+
+Abre CMD o Powershell:
+
+```cmd
+Microsoft Windows [Version 10.0.26200.9168]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\>psmux
+```
+
+
+
 
 
 
