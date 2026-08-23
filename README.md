@@ -1,8 +1,8 @@
-# Guía de despliegue RHEL-VMware
+# Laboratorio RHEL-VMware
 
 **Tema central**
 
-Diseño e implementación de un laboratorio de virtualización de bajo consumo de recursos (usando VMware) orientado a la preparación práctica para certificaciones en Red Hat Enterprise Linux (RHEL).
+Diseño e implementación de un laboratorio de virtualización de bajo consumo de recursos (usando VMware ESXi) orientado a ensayos y la preparación práctica para certificaciones en Red Hat Enterprise Linux (RHEL).
 
 
 
@@ -28,6 +28,10 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 
 
 
+## Bitácora de despliegue RHEL-VMware
+
+
+
 - [Escenarios de virtualización](/doc/escenarios-virtualizacion.md)
 - [Soluciones disponibles](/doc/soluciones-disponibles.md)
 - [Evaluacion/elección del Hardware](/doc/evaluacion-hardware.md)
@@ -40,6 +44,9 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [Gajes del oficio con sistemas MS Windows](/doc//gajes-del-oficio-sistemas-windows.md)
 - [Snapshot y Almacenamiento adicional](/doc/snapshot_add-disk.md)
 - [Acerca de SSH desde Windows 11](/doc/tip-ssh-windows.md) 
+- [Repositorios de paquetes EPEL en RHEL](/doc/epel-rhel.md) 
+- [ACLs Extendidas y Quotas](/doc/Extended_ACLs_and_Quotas.md) 
+- [Redes en VMware ESXi](/doc/Networking-VMware.md) 
 
 
 
