@@ -83,7 +83,7 @@ edquota nombre_usuario
 
 
 
-### Tarea 1: Habilitar Quotas a los usuarios en  `/data/apps`
+## Tarea 1: Habilitar Quotas a los usuarios en  `/data/apps`
 
 
 
@@ -208,7 +208,7 @@ sudo quotaon -v /tu/punto/montaje
 
 
 
-### Tarea 2:  Establecer para el usuario 'ana',  límite soft de 50 MB (bloques), límite hard de 80 MB (bloques).
+## Tarea 2:  Establecer para el usuario 'ana',  límite soft de 50 MB (bloques), límite hard de 80 MB (bloques).
 
 
 
