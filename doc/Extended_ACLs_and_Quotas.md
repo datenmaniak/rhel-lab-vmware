@@ -1,4 +1,4 @@
-#  ACLs Extendidas y Quotas
+#  ACLs Extendidas y Quotas X
 
 Vamos directo al grano con una clase rápida, técnica y al pie sobre **ACLs Extendidas (Access Control Lists)** y **Cuotas de Disco (Disk Quotas)** en entornos Red Hat (RHEL/CentOS/Fedora).
 
