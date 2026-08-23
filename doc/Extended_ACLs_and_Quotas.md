@@ -19,7 +19,7 @@ Por defecto, los permisos POSIX tradicionales son limitados: solo puedes asignar
 
 - **Ver ACLs:**
 
-  ```
+  ```bash
   getfacl /ruta/al/archivo_o_directorio
   ```
   
@@ -60,14 +60,14 @@ Las cuotas permiten limitar el uso de almacenamiento por **usuario** o por **gru
 
 - **Ver el estado y uso de cuotas:**
 
-  ```
+  ```bash
   quotaon -v /punto/de/montaje
   repquota -avs
   ```
 
 - **Editar la cuota de un usuario específico:**
 
-  ```
+  ```bash
 edquota nombre_usuario
   ```
   
@@ -75,7 +75,7 @@ edquota nombre_usuario
 
 - **Ver las cuotas de un usuario:**
 
-  ```
+  ```bash
   quota nombre_usuario
   ```
 
@@ -108,7 +108,7 @@ El comando `quotaon` te avisa que `/data/apps` no tiene cuotas habilitadas porqu
 
 Ejecuta esto para ver el dispositivo y el sistema de archivos:
 
-```
+```bash
 findmnt /data/apps
 ```
 
@@ -120,13 +120,13 @@ Para XFS, las cuotas de usuario se habilitan añadiendo la opción `usrquota` (y
 
 1. Abre el archivo:
 
-   ```
+   ```bash
    sudo nano /etc/fstab
    ```
    
 2. Busca la línea correspondiente a `/data/apps` y añade `,usrquota` (o asegúrate de que esté presente en la columna de opciones). Debería verse más o menos así:
 
-   ```
+   ```bash
    /dev/mapper/vg0-apps  /data/apps  xfs  defaults,usrquota  0  0
    ```
    
@@ -136,7 +136,7 @@ Para XFS, las cuotas de usuario se habilitan añadiendo la opción `usrquota` (y
 
 Para no tener que reiniciar la VM, vuelve a montar la partición aplicando las opciones del `fstab`:
 
-```
+```bash
 sudo mount -o remount /data/apps
 ```
 
@@ -146,7 +146,7 @@ sudo mount -o remount /data/apps
 
 Ahora sí, ejecuta el comando de activación:
 
-```
+```bash
 sudo quotaon -v /data/apps
 ```
 
@@ -170,7 +170,7 @@ Para EXT4, las opciones de montaje típicas para cuotas de usuario y grupo son `
 
 
 
-```
+```bash
 /dev/sdb1  /tu/punto/montaje  ext4  defaults,usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0  0  0
 ```
 
@@ -178,7 +178,7 @@ Para EXT4, las opciones de montaje típicas para cuotas de usuario y grupo son `
 
 Aplica los cambios sin reiniciar:
 
-```
+```bash
 sudo mount -o remount /tu/punto/montaje
 ```
 
@@ -186,7 +186,7 @@ sudo mount -o remount /tu/punto/montaje
 
 A diferencia de XFS (que los gestiona internamente el kernel), EXT4 requiere que generes los binarios de control con el comando `quotacheck`:
 
-```
+```bash
 sudo quotacheck -cumv /tu/punto/montaje
 ```
 
@@ -199,7 +199,7 @@ sudo quotacheck -cumv /tu/punto/montaje
 
 Ahora sí, actívalas con normalidad:
 
-```
+```bash
 sudo quotaon -v /tu/punto/montaje
 ```
 
@@ -226,7 +226,7 @@ Como el sistema de cuotas suele trabajar en bloques de **1 Kilobyte (1024 bytes)
 
 Ejecuta el siguiente comando (ajustando el punto de montaje si no es `/data/apps`):
 
-```
+```bash
 sudo setquota -u ana 51200 81920 0 0 /data/apps
 ```
 
@@ -244,13 +244,13 @@ Si prefieres verificar visualmente las tablas:
 
 1. Ejecuta el comando para la usuaria:
 
-   ```
+   ```bash
    sudo edquota -u ana
    ```
 
 2. Se abrirá un archivo en tu editor predeterminado (como `vi` o `nano`) que se verá más o menos así:
 
-   ```
+   ```bash
    Disk quotas for user ana (uid 1001):
      Filesystem           blocks       soft       hard     inodes     soft     hard
      /dev/mapper/...      1200       0          0          15         0        0
@@ -264,13 +264,13 @@ Si prefieres verificar visualmente las tablas:
 
 Puedes auditar la cuota de `ana` en cualquier momento ejecutando:
 
-```
+```bash
 sudo quota -v ana
 ```
 
 O bien revisar un resumen general de todas las cuotas activas con:
 
-```
+```bash
 sudo repquota -avs
 ```
 
@@ -296,25 +296,25 @@ Si la partición es nueva o la puedes desmontar un momento, puedes activar la ca
 
 1. **Desmonta el sistema de archivos:**
 
-   ```
+   ```bash
    sudo umount /ruta/punto/montaje
    ```
 
 2. **Habilita la característica de cuotas internas con `tune2fs`:**
 
-   ```
+   ```bash
    sudo tune2fs -O quota /ruta/dispositivo
    ```
 
 3. **Modifica tu `/etc/fstab` de forma limpia** (sin necesidad de apuntar a archivos `aquota.user`, solo usando las opciones estándar):  
 
-   ```
+   ```bash
    /dev/tu_dispositivo  /ruta/punto/montaje  ext4  defaults,usrquota,grpquota  0  2
    ```
 
 4. **Vuelve a montar y enciende las cuotas:**
 
-   ```
+   ```bash
    sudo mount /ruta/punto/montaje
    sudo quotaon -v /ruta/punto/montaje
    ```
