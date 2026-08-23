@@ -1,4 +1,4 @@
-#  ACLs Extendidas y Quotas X
+#  ACLs Extendidas y Quotas 
 
 Vamos directo al grano con una clase rápida, técnica y al pie sobre **ACLs Extendidas (Access Control Lists)** y **Cuotas de Disco (Disk Quotas)** en entornos Red Hat (RHEL/CentOS/Fedora).
 
@@ -67,19 +67,19 @@ Las cuotas permiten limitar el uso de almacenamiento por **usuario** o por **gru
 
 - **Editar la cuota de un usuario específico:**
 
-  ```bash
+```bash
 edquota nombre_usuario
-  ```
-  
-  *(Esto abrirá un editor de texto donde defines los límites de bloques e inodos para los soft y hard limits).*
+```
+
+#### (Esto abrirá un editor de texto donde defines los límites de bloques e inodos para los soft y hard limits).*
+
+
 
 - **Ver las cuotas de un usuario:**
 
   ```bash
   quota nombre_usuario
   ```
-
-¿Todo claro con la teoría? Dime y pasamos de inmediato al laboratorio práctico en tu VM para poner esto a prueba con comandos reales.
 
 
 
@@ -92,9 +92,10 @@ edquota nombre_usuario
  quotaon -v /data/apps
 ```
 
+**Advertencia:**
+
 
 ```bash
-quotaon -v /data/apps 
 quotaon: Mountpoint (or device) /data/apps not found or has no quota enabled.
 ```
 
