@@ -28,7 +28,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 
 
 
-## Bitácora de despliegue RHEL-VMware
+## Bitácora de Deployment & Jobs
 
 
 
