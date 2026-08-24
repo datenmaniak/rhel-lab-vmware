@@ -47,6 +47,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [Repositorios de paquetes EPEL en RHEL](/doc/epel-rhel.md) 
 - [ACLs Extendidas y Quotas](/doc/Extended_ACLs_and_Quotas.md) 
 - [Redes en VMware ESXi](/doc/Networking-VMware.md) 
+- [autofs en RHEL](/doc/autofs-rhel.md)
 
 
 
