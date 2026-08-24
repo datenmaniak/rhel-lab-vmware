@@ -45,6 +45,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [Snapshot y Almacenamiento adicional](/doc/snapshot_add-disk.md)
 - [Acerca de SSH desde Windows 11](/doc/tip-ssh-windows.md) 
 - [Repositorios de paquetes EPEL en RHEL](/doc/epel-rhel.md) 
+- [Access Control Lists (ACLs)](/doc/acls.md)
 - [ACLs Extendidas y Quotas](/doc/Extended_ACLs_and_Quotas.md) 
 - [Redes en VMware ESXi](/doc/Networking-VMware.md) 
 - [autofs en RHEL](/doc/autofs-rhel.md)
