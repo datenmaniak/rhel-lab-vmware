@@ -2,7 +2,7 @@
 
 **Tema central**
 
-Diseño e implementación de un laboratorio de virtualización de bajo consumo de recursos (usando VMware ESXi) orientado a ensayos y la preparación práctica para certificaciones en Red Hat Enterprise Linux (RHEL).
+Implementación de un laboratorio Red Hat Enterprise Linux ejecutándose en VMWare ESXi utilizando virtualización  anidada. Optimizado para el consumos de recursos y uso de una sola interfaz de red.  Orientado a ensayos, formación  y la preparación práctica para certificaciones en Red Hat Enterprise Linux (RHEL).
 
 
 
@@ -10,7 +10,7 @@ Diseño e implementación de un laboratorio de virtualización de bajo consumo d
 >
 > 1. Una persona que sabe de Linux pero no tiene mucha experiencia  trabajando en producción con virtualización utilizando VMware. 
 > 2. Se necesita un entorno simulado para ensayar y reforzar conocimientos de administración de sistemas basados en Red Hat Linux Enterprise para optar a exámenes de certificaciones. 
-> 3. Se dispone de un Hardware con limitaciones.
+> 3. Se dispone de un Hardware con limitaciones. *(ej: Tarjeta de red exigida por VMware para servidores*).
 
 
 
@@ -49,6 +49,7 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [ACLs Extendidas y Quotas](/doc/Extended_ACLs_and_Quotas.md) 
 - [Redes en VMware ESXi](/doc/Networking-VMware.md) 
 - [autofs en RHEL](/doc/autofs-rhel.md)
+- [Solución de problemas de red en Linux](/doc/troubleshootin-network-linux.md)
 
 
 
