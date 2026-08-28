@@ -6,7 +6,7 @@
 
 La VM anfitrión es VMware ESXi 8.0 se ejecuta utilizando virtualización anidada,  corriendo sobre Linux (Omarchy Quatro, por cierto!  😎)
 
-```plaintext
+```bash
 The virtual machine's operating system has attempted to enable promiscuous mode on adapter 'Ethernet0'. This is not allowed for security reasons.
 Please go to the Web page "http://vmware.com/info?id=161" for help enabling promiscuous mode in the virtual machine.
 ```
