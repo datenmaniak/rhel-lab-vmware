@@ -6,7 +6,7 @@
 
 La VM anfitrión es VMware ESXi 8.0 se ejecuta utilizando virtualización anidada,  corriendo sobre Linux (Omarchy Quatro, por cierto!  😎)
 
-```text
+```plaintext
 The virtual machine's operating system has attempted to enable promiscuous mode on adapter 'Ethernet0'. This is not allowed for security reasons.
 Please go to the Web page "http://vmware.com/info?id=161" for help enabling promiscuous mode in the virtual machine.
 ```
@@ -73,12 +73,11 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
 
    - **Give all users permission (quick but less secure):** This makes the device writable for any user.
 
-     ```bash
+```bash
    sudo chmod a+rw /dev/vmnet0
-     ```
-     
+```
 
-     *(Replace `/dev/vmnet0` with `/dev/vmnet8` if you are using NAT)* .
+ ** Replace `/dev/vmnet0` with `/dev/vmnet8` if you are using NAT**
 
    - **Use a group for more granular control:** This is the more secure, recommended approach .
 
