@@ -6,11 +6,11 @@
 
 La VM anfitrión es VMware ESXi 8.0 se ejecuta utilizando virtualización anidada,  corriendo sobre Linux (Omarchy Quatro, por cierto!  😎)
 
-```bash
-The virtual machine's operating system has attempted to enable promiscuous mode on adapter 'Ethernet0'. This is not allowed for security reasons.
+```plaintext
+The virtual machine's operating system has attempted to enable promiscuous mode on adapter 'Ethernet0'.
+This is not allowed for security reasons.
 Please go to the Web page "http://vmware.com/info?id=161" for help enabling promiscuous mode in the virtual machine.
 ```
-
 
 
 > The error you're seeing is a security feature of VMware products. It prevents the virtual machine's operating system from putting its virtual network adapter into promiscuous mode, which would allow it to see all network traffic on the virtual switch, not just its own .
