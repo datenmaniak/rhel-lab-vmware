@@ -38,7 +38,6 @@ Para solucionarlo sin tener que ejecutar el hipervisor como `root`, debes otorga
    **Crear el script de asignación:**  Requiere privilegios sudo.
 
    Crea un archivo en `~/vmnet-promisc.sh` con el siguiente contenido para ajustar los adaptadores que utilices (ej. vmnet1 y vmnet8):
-
    
 
    ```bash
@@ -52,9 +51,7 @@ Para solucionarlo sin tener que ejecutar el hipervisor como `root`, debes otorga
    ```
 
 
-
 3. **Inicia la VM:** Arranca nuevamente la máquina desde VMware. La alerta desaparecerá y el tráfico de red interno comenzará a enrutarse correctamente.
-
 
 
 The solution depends on the VMware product you are using. There are two main scenarios:
@@ -76,10 +73,9 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
 
    - **Give all users permission (quick but less secure):** This makes the device writable for any user.
 
-     ```
+     ```bash
    sudo chmod a+rw /dev/vmnet0
      ```
-     
      
 
      *(Replace `/dev/vmnet0` with `/dev/vmnet8` if you are using NAT)* .
@@ -88,7 +84,7 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
 
      
 
-     ```
+     ```bash
      # Create a new group (e.g., vmware)
      sudo groupadd vmware 
      # Add your username to the group
@@ -100,8 +96,6 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
      ```
 
 
-
-
 ### Configuración Persistente
 
 Dado que el sistema de archivos `/dev/` es volátil, estos permisos se perderán cada vez que reinicies el equipo físico/anfitrión o servidor. La forma más robusta de mantener este ajuste es automatizarlo a través de `systemd` para que se aplique justo después de que los servicios de red de VMware levanten.
@@ -110,21 +104,20 @@ Dado que el sistema de archivos `/dev/` es volátil, estos permisos se perderán
 
 Crea un archivo en `/usr/local/bin/vmnet-promisc.sh` con el siguiente contenido para ajustar los adaptadores que utilices (ej. vmnet0 y vmnet8):
 
-```
+```bash
 #!/bin/bash
 chmod a+rw /dev/vmnet0 /dev/vmnet8 /dev/vmnet1
 ```
 
 Haz que el script sea ejecutable:
 
-```
+```bash
 sudo chmod +x /usr/local/bin/vmnet-promisc.sh
 ```
 
 **2.Crear el servicio de systemd:**
 
 Crea un nuevo archivo de servicio en `/etc/systemd/system/vmnet-promisc.service`:
-
 
 
 ```toml
@@ -141,14 +134,12 @@ WantedBy=multi-user.target
 ```
 
 
-
 **3.Habilitar el servicio:**
 
 Activa el servicio para que se ejecute en el próximo inicio del sistema:
 
 
-
-```
+```bash
 sudo systemctl enable vmnet-promisc.service
 sudo systemctl start vmnet-promisc.service
 ```
