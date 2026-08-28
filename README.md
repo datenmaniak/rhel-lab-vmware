@@ -49,7 +49,8 @@ El enfoque de simular un entorno en hardware limitado demuestra iniciativa y cap
 - [ACLs Extendidas y Quotas](/doc/Extended_ACLs_and_Quotas.md) 
 - [Redes en VMware ESXi](/doc/Networking-VMware.md) 
 - [autofs en RHEL](/doc/autofs-rhel.md)
-- [Solución de problemas de red en Linux](/doc/troubleshooting-network-linux.md)
+- [Solución a errores de red en VMWare ESXi en Linux](/doc/troubleshooting-network-linux.md)
+	- Modo promiscuo
 
 
 

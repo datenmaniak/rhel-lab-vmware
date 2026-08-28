@@ -17,6 +17,44 @@ Please go to the Web page "http://vmware.com/info?id=161" for help enabling prom
 
 
 
+Este error ocurre porque la máquina virtual está intentando poner su interfaz en modo promiscuo para gestionar tráfico de red que no está destinado exclusivamente a su propia dirección MAC. En un host Linux, VMware Workstation o Player bloquea esta acción por defecto para cualquier usuario que no sea `root`.
+
+Esto es un comportamiento esperado y necesario si dentro de esa VM estás corriendo servicios que manejan subredes, bridges o múltiples MACs (como un firewall pfSense, contenedores con Podman/Docker, o clústeres locales de k3s/Kind).
+
+Para solucionarlo sin tener que ejecutar el hipervisor como `root`, debes otorgar permisos de lectura y escritura a la interfaz virtual (`/dev/vmnetX`) directamente en tu host Linux.
+
+## Solución Inmediata
+
+1. **Identifica el tipo de red virtual:**
+
+   - **Bridged (Puente):** `/dev/vmnet0`
+   - **Host-only (Solo anfitrión):** `/dev/vmnet1`
+   - **NAT:** `/dev/vmnet8`
+
+2. **Aplica los permisos:** Abre tu emulador de terminal en el host Linux y ejecuta el siguiente comando (asumiendo que la VM usa red Bridged en `vmnet0`):
+
+   
+
+   **Crear el script de asignación:**  Requiere privilegios sudo.
+
+   Crea un archivo en `~/vmnet-promisc.sh` con el siguiente contenido para ajustar los adaptadores que utilices (ej. vmnet1 y vmnet8):
+
+   
+
+   ```bash
+   #!/bin/sh
+   
+   sudo chgrp vmware /dev/vmnet0 /dev/vmnet8 /dev/vmnet1
+   sudo chmod g+rw /dev/vmnet0 /dev/vmnet8 /dev/vmnet1
+   
+   # Ejecuta antes de invocar VMWare WorkStation/Player
+   ./vmnet-promisc.sh
+   ```
+
+
+
+3. **Inicia la VM:** Arranca nuevamente la máquina desde VMware. La alerta desaparecerá y el tráfico de red interno comenzará a enrutarse correctamente.
+
 
 
 The solution depends on the VMware product you are using. There are two main scenarios:
@@ -38,12 +76,10 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
 
    - **Give all users permission (quick but less secure):** This makes the device writable for any user.
 
+     ```
+   sudo chmod a+rw /dev/vmnet0
+     ```
      
-
-     ```
-     sudo chmod a+rw /dev/vmnet0
-     ```
-
      
 
      *(Replace `/dev/vmnet0` with `/dev/vmnet8` if you are using NAT)* .
@@ -53,21 +89,76 @@ This is the most common cause **when running VMware Workstation** or Fusion **on
      
 
      ```
-     # Create a new group (e.g., vmwaregroup)
-     sudo groupadd vmwaregroup
+     # Create a new group (e.g., vmware)
+     sudo groupadd vmware 
      # Add your username to the group
-     sudo usermod -aG vmwaregroup your_username
+     sudo usermod -aG vmware $USER
      # Change the group ownership of the device
-     sudo chgrp vmwaregroup /dev/vmnet0
+     sudo chgrp vmware /dev/vmnet0 /dev/vmnet1 /dev/vmnet8
      # Give the group read/write permissions
-     sudo chmod g+rw /dev/vmnet0
+     sudo chmod g+rw /dev/vmnet0 /dev/vmnet1 /dev/vmnet8
      ```
 
-     
 
-3. **Verify the change:** You can check the new permissions with `ls -l /dev/vmnet0` .
 
-4. **Restart the VM or VMware service:** For the change to take effect, you may need to restart the virtual machine or the VMware Workstation service .
+
+### Configuración Persistente
+
+Dado que el sistema de archivos `/dev/` es volátil, estos permisos se perderán cada vez que reinicies el equipo físico/anfitrión o servidor. La forma más robusta de mantener este ajuste es automatizarlo a través de `systemd` para que se aplique justo después de que los servicios de red de VMware levanten.
+
+**1.Crear el script de asignación:**  Requiere privilegios sudo.
+
+Crea un archivo en `/usr/local/bin/vmnet-promisc.sh` con el siguiente contenido para ajustar los adaptadores que utilices (ej. vmnet0 y vmnet8):
+
+```
+#!/bin/bash
+chmod a+rw /dev/vmnet0 /dev/vmnet8 /dev/vmnet1
+```
+
+Haz que el script sea ejecutable:
+
+```
+sudo chmod +x /usr/local/bin/vmnet-promisc.sh
+```
+
+**2.Crear el servicio de systemd:**
+
+Crea un nuevo archivo de servicio en `/etc/systemd/system/vmnet-promisc.service`:
+
+
+
+```toml
+[Unit]
+Description=Habilitar modo promiscuo para vmnets de VMware
+After=vmware.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/vmnet-promisc.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+**3.Habilitar el servicio:**
+
+Activa el servicio para que se ejecute en el próximo inicio del sistema:
+
+
+
+```
+sudo systemctl enable vmnet-promisc.service
+sudo systemctl start vmnet-promisc.service
+```
+
+
+
+1. **Verify the change:** You can check the new permissions with `ls -l /dev/vmnet0 /dev/vmnet1 /dev/vmnet8` .
+
+2. **Restart the VM or VMware service:** For the change to take effect, you may need to restart the virtual machine or the **VMware Workstation service** .
+
 
 ### ☁️ Scenario 2: VMware vSphere (ESXi)
 
